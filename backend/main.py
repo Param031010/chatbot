@@ -30,6 +30,7 @@ frontend_origins = ",".join(
             os.getenv("FRONTEND_ORIGINS"),
             os.getenv("FRONTEND_ORIGIN"),
             "https://chatbot-4ebf.onrender.com",
+            "https://chatbot-f4ki.vercel.app",
             "http://localhost:5173",
         ],
     )
