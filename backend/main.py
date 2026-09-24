@@ -23,9 +23,17 @@ if not SUPABASE_URL or not SUPABASE_KEY or not GROQ_API_KEY:
     raise RuntimeError("SUPABASE_URL, SUPABASE_KEY, and GROQ_API_KEY are required")
 
 app = FastAPI(title="groq.chat API")
+allowed_origins = [
+    origin.strip()
+    for origin in os.getenv(
+        "FRONTEND_ORIGINS",
+        "https://chatbot-4ebf.onrender.com,http://localhost:5173",
+    ).split(",")
+    if origin.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
