@@ -23,12 +23,20 @@ if not SUPABASE_URL or not SUPABASE_KEY or not GROQ_API_KEY:
     raise RuntimeError("SUPABASE_URL, SUPABASE_KEY, and GROQ_API_KEY are required")
 
 app = FastAPI(title="groq.chat API")
+frontend_origins = ",".join(
+    filter(
+        None,
+        [
+            os.getenv("FRONTEND_ORIGINS"),
+            os.getenv("FRONTEND_ORIGIN"),
+            "https://chatbot-4ebf.onrender.com",
+            "http://localhost:5173",
+        ],
+    )
+)
 allowed_origins = [
     origin.strip()
-    for origin in os.getenv(
-        "FRONTEND_ORIGINS",
-        "https://chatbot-4ebf.onrender.com,http://localhost:5173",
-    ).split(",")
+    for origin in frontend_origins.split(",")
     if origin.strip()
 ]
 app.add_middleware(
@@ -42,6 +50,11 @@ app.add_middleware(
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 groq = Groq(api_key=GROQ_API_KEY)
 MODEL = "openai/gpt-oss-20b"
+
+
+@app.get("/")
+def root() -> dict:
+    return {"service": "groq.chat API", "status": "ok", "docs": "/docs"}
 
 
 class ChatRequest(BaseModel):

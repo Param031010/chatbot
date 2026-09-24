@@ -1,7 +1,8 @@
 import './style.css'
 import packageJson from '../package.json'
 
-const API_URL = import.meta.env.VITE_API_URL || packageJson.config.apiUrl
+const configuredApiUrl = import.meta.env.VITE_API_URL || packageJson.config.apiUrl
+const API_URL = `${configuredApiUrl.replace(/\/+$/, '').replace(/\/api$/, '')}/api`
 const state = { conversations: [], activeId: null, messages: [], sidebarOpen: true, loading: false }
 const icons = {
   menu: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
