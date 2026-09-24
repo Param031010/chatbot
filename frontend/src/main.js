@@ -1,5 +1,7 @@
 import './style.css'
 import packageJson from '../package.json'
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 const configuredApiUrl = import.meta.env.VITE_API_URL || packageJson.config.apiUrl
 const API_URL = `${configuredApiUrl.replace(/\/+$/, '').replace(/\/api$/, '')}/api`
@@ -55,6 +57,10 @@ document.querySelector('#app').innerHTML = `
 const elements = { sidebar: document.querySelector('#sidebar'), list: document.querySelector('#conversation-list'), historyCount: document.querySelector('#history-count'), welcome: document.querySelector('#welcome'), messages: document.querySelector('#messages'), input: document.querySelector('#message-input'), composer: document.querySelector('#composer'), send: document.querySelector('#send-button') }
 
 function escapeHtml(value) { return value.replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' })[character]) }
+function renderMessage(message) {
+  if (message.role !== 'assistant') return escapeHtml(message.content).replace(/\n/g, '<br>')
+  return DOMPurify.sanitize(marked.parse(message.content, { breaks: true, gfm: true }))
+}
 function formatDate(value) { return value ? new Date(value).toLocaleDateString([], { month: 'short', day: 'numeric' }) : '' }
 function renderConversations() {
   elements.historyCount.textContent = state.conversations.length
@@ -63,7 +69,7 @@ function renderConversations() {
 }
 function renderMessages() {
   elements.welcome.hidden = state.messages.length > 0
-  elements.messages.innerHTML = state.messages.map((message) => `<article class="message ${message.role}"><div class="message-label">${message.role === 'user' ? 'You' : 'gpt-oss-20b'}</div><div class="message-body">${escapeHtml(message.content).replace(/\n/g, '<br>')}</div></article>`).join('')
+  elements.messages.innerHTML = state.messages.map((message) => `<article class="message ${message.role}"><div class="message-label">${message.role === 'user' ? 'You' : 'gpt-oss-20b'}</div><div class="message-body">${renderMessage(message)}</div></article>`).join('')
   elements.messages.scrollTop = elements.messages.scrollHeight
 }
 async function request(path, options = {}) {

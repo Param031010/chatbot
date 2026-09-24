@@ -50,6 +50,17 @@ h1 em { color: #b77b2f; font-style: italic; }
 .message-label { margin-bottom: 7px; color: #a27437; font-size: 10px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; }
 .message.user .message-label { color: #687568; }
 .message-body { color: #373832; font-size: 14px; line-height: 1.7; }
+.message-body p { margin: 0 0 12px; }
+.message-body p:last-child { margin-bottom: 0; }
+.message-body h1, .message-body h2, .message-body h3 { margin: 18px 0 8px; color: #292a24; font: 600 18px/1.25 Georgia, serif; letter-spacing: 0; }
+.message-body h1:first-child, .message-body h2:first-child, .message-body h3:first-child { margin-top: 0; }
+.message-body ul, .message-body ol { margin: 8px 0 14px; padding-left: 22px; }
+.message-body li { margin: 4px 0; }
+.message-body a { color: #986323; text-decoration: underline; text-underline-offset: 3px; }
+.message-body blockquote { margin: 12px 0; padding-left: 14px; border-left: 2px solid #ddbc7e; color: #6d7065; }
+.message-body code { padding: 2px 5px; border-radius: 4px; color: #6f4a1f; background: #ece7dc; font: 12px/1.4 Consolas, monospace; }
+.message-body pre { overflow-x: auto; margin: 12px 0; padding: 13px 15px; border-radius: 7px; color: #ede9dd; background: #27332d; }
+.message-body pre code { padding: 0; color: inherit; background: transparent; }
 .message.assistant .message-body { padding-left: 17px; border-left: 2px solid #ddbc7e; }
 .message.user { padding: 14px 17px; border-radius: 8px; background: #e9e4d8; }
 .composer-wrap { width: min(720px, calc(100% - 40px)); margin: auto auto 26px; }
