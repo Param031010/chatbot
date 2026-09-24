@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "config": {
+    "apiUrl": "https://chatbot-4ebf.onrender.com/api"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
